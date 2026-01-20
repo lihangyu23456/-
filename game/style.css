@@ -1,0 +1,1473 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* AI动画配置容器 */
+.api-config-container {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.api-config-container h4 {
+    font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.api-token-input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.9em;
+}
+
+.small-btn {
+    padding: 8px 16px;
+    font-size: 0.85em;
+}
+
+.api-hint {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8em;
+    margin-top: 8px;
+}
+
+#app {
+    width: 100%;
+    height: 100vh;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.screen.hidden {
+    display: none !important;
+}
+
+/* 游戏界面特殊处理 */
+#game-screen {
+    display: flex !important;
+}
+
+#game-screen.hidden {
+    display: none !important;
+}
+
+/* 开始界面 */
+.title {
+    font-size: 3.5em;
+    color: #fff;
+    text-shadow: 3px 3px 0 #ff6b6b, 6px 6px 0 rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.subtitle {
+    font-size: 1.5em;
+    color: #ffd93d;
+    margin-bottom: 40px;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    font-weight: bold;
+    display: inline-block;
+    z-index: 100;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.btn.upload-btn {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    padding: 8px 20px;
+    font-size: 0.9em;
+    display: inline-block;
+}
+
+/* 角色选择界面 */
+#character-select-screen {
+    overflow-y: auto !important;
+    padding: 20px;
+    justify-content: flex-start;
+}
+
+#character-select-screen h2 {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    flex-shrink: 0;
+}
+
+/* 背景上传容器 */
+.background-upload-container {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.background-upload-container h4 {
+    color: #fff;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+/* 音频上传容器 */
+.audio-upload-container {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.audio-upload-container h4 {
+    color: #fff;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.audio-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    border: 2px solid #ffd93d;
+}
+
+.audio-placeholder,
+.audio-uploaded {
+    font-size: 2em;
+}
+
+.audio-placeholder {
+    opacity: 0.7;
+}
+
+.audio-uploaded {
+    animation: pulse 1s ease-in-out;
+}
+
+.audio-text {
+    color: #fff;
+    font-size: 0.9em;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.background-preview {
+    width: 200px;
+    height: 120px;
+    margin: 0 auto 10px;
+    border-radius: 10px;
+    border: 2px solid #ffd93d;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.background-placeholder {
+    font-size: 3em;
+}
+
+.background-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.players-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.start-fight-btn {
+    position: relative;
+    z-index: 200;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding: 18px 50px;
+    font-size: 1.3em;
+}
+
+.player-select {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.player-select h3 {
+    color: #fff;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.avatar-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 智能抠图开关样式 */
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-slider {
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    position: relative;
+    transition: background 0.3s ease;
+    margin-right: 10px;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-label input:checked + .toggle-slider {
+    background: #4ecdc4;
+}
+
+.toggle-label input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+.toggle-text {
+    color: #fff;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.avatar-placeholder {
+    font-size: 4em;
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-input {
+    display: none;
+}
+
+.player-name-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    background: rgba(255,255,255,0.9);
+}
+
+/* 技能上传容器 */
+.skill-upload-container {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.skill-upload-container h4 {
+    color: #fff;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.skill-preview {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 8px;
+    border-radius: 10px;
+    border: 2px solid #ffd93d;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-placeholder {
+    font-size: 2em;
+}
+
+.skill-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 视频上传容器 */
+.video-upload-container {
+    margin-top: 10px;
+}
+
+.video-upload-container h4 {
+    color: #fff;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.video-preview {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 8px;
+    border-radius: 10px;
+    border: 2px solid #ff6b6b;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-placeholder {
+    font-size: 2em;
+}
+
+.video-preview-element {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 冲击波视频播放层 */
+.shockwave-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    z-index: 1000;
+    background: transparent;
+    object-fit: contain;
+    opacity: 0.7;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.shockwave-video.hidden {
+    display: none;
+}
+
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.character-option {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+}
+
+.character-option:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.4);
+}
+
+.character-option.selected {
+    border-color: #ffd93d;
+    box-shadow: 0 0 15px #ffd93d;
+}
+
+.vs-divider {
+    font-size: 4em;
+    font-weight: bold;
+    color: #ff6b6b;
+    text-shadow: 3px 3px 0 #000;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* 游戏界面 */
+#game-screen {
+    background: linear-gradient(180deg, #2c3e50 0%, #1a1a2e 100%);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.game-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px 15px;
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.game-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 8px 10px;
+}
+
+.player-info {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: 42%;
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+}
+
+.game-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    object-fit: cover;
+}
+
+.player-info .player-header span {
+    color: #fff;
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+.player-info.left {
+    align-self: flex-start;
+}
+
+.player-info.right {
+    align-self: flex-start;
+    text-align: right;
+}
+
+.player-info.left .player-header {
+    flex-direction: row;
+}
+
+.player-info.right .player-header {
+    flex-direction: row-reverse;
+}
+
+.health-bar-container {
+    width: 100%;
+    height: 15px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.skills-info {
+    margin-top: 4px;
+}
+
+.skills-info-title {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.6em;
+    margin-bottom: 2px;
+}
+
+.skills-info-items {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 3px;
+}
+
+.skills-info-items span {
+    color: #fff;
+    font-size: 0.6em;
+    background: rgba(0,0,0,0.3);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.cooldowns-info-mini {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+
+.cooldown-mini {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cooldown-mini.ready {
+    background: #4ecdc4;
+    color: #fff;
+}
+
+.cooldown-mini.waiting {
+    background: #ff6b6b;
+    color: #fff;
+    animation: cooldownPulse 0.5s ease infinite;
+}
+
+.health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #ffd93d, #4ecdc4);
+    transition: width 0.3s ease;
+}
+
+.timer {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0,0,0,0.3);
+    padding: 3px 15px;
+    border-radius: 6px;
+    margin: 0 10px;
+}
+
+.battle-arena {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #e94560 100%);
+    border-radius: 0;
+    margin: 0;
+    overflow: hidden;
+    flex: 1;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+
+/* 远景建筑 */
+.background-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.building-bg {
+    position: absolute;
+    bottom: 0;
+    font-size: 12em;
+    opacity: 0.25;
+    filter: blur(1px);
+}
+
+/* 地面平台 */
+.ground-platform {
+    position: absolute;
+    background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+    border-radius: 6px;
+    border-top: 2px solid #718096;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ground-platform::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+    border-radius: 0 0 8px 8px;
+}
+
+/* 建筑物样式 */
+.obstacle {
+    position: absolute;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+    z-index: 5;
+    font-size: 3.5em;
+}
+
+.fighter {
+    position: absolute;
+    bottom: 0;
+    width: 120px;
+    height: 140px;
+    transition: none;
+    z-index: 10;
+}
+
+/* 人物阴影效果 */
+.fighter::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 10%;
+    width: 80%;
+    height: 15px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: shadowBreath 2s ease-in-out infinite;
+}
+
+@keyframes shadowBreath {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+/* 人物容器光晕 */
+.fighter::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 15px;
+    background: transparent;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.fighter-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: transform 0.05s ease-out;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* 人物待机呼吸效果 */
+.fighter-idle-anim {
+    animation: idleBreath 2s ease-in-out infinite;
+}
+
+@keyframes idleBreath {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-5px) scale(1.02);
+    }
+}
+
+/* 人物走路摇摆效果 */
+.fighter-walk-anim {
+    animation: walkBounce 0.3s ease-in-out infinite;
+}
+
+@keyframes walkBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(-2deg);
+    }
+}
+
+/* 人物攻击冲刺效果 */
+.fighter-attack-anim {
+    animation: attackDash 0.2s ease-out;
+}
+
+@keyframes attackDash {
+    0% {
+        transform: translateX(0) scale(1);
+    }
+    50% {
+        transform: translateX(20px) scale(1.1);
+    }
+    100% {
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* 人物跳跃腾空效果 */
+.fighter-jump-anim {
+    animation: jumpArc 0.5s ease-in-out;
+}
+
+@keyframes jumpArc {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-20px) rotate(-15deg) scale(1.05);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+}
+
+/* 人物防御姿态 */
+.fighter-block-anim {
+    animation: blockStance 0.3s ease-out forwards;
+}
+
+@keyframes blockStance {
+    0% {
+        transform: translateY(0) scaleY(1);
+    }
+    100% {
+        transform: translateY(15px) scaleY(0.85);
+    }
+}
+
+#fighter1 {
+    left: 80px;
+}
+
+#fighter2 {
+    right: 80px;
+}
+
+.health-number {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.4em;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.fighter-state {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffd93d;
+    font-size: 1em;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #000;
+    white-space: nowrap;
+}
+
+/* 攻击范围指示器 */
+.attack-range-indicator {
+    position: absolute;
+    pointer-events: none;
+    border: 3px dashed rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.1);
+    display: none;
+}
+
+.attack-range-indicator.show {
+    display: block;
+    animation: rangePulse 1s ease infinite;
+}
+
+@keyframes rangePulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+.health-effect {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    animation: effectPop 0.5s ease forwards;
+}
+
+@keyframes effectPop {
+    0% { opacity: 1; transform: translateX(-50%) scale(0.5); }
+    100% { opacity: 0; transform: translateX(-50%) scale(1.5) translateY(-50px); }
+}
+
+.hurt-text {
+    position: absolute;
+    pointer-events: none;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #ff6b6b;
+    text-shadow: 3px 3px 0 #ffd93d, 6px 6px 0 rgba(0,0,0,0.3);
+    white-space: nowrap;
+    z-index: 100;
+    animation: hurtTextFloat 1s ease forwards;
+}
+
+@keyframes hurtTextFloat {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.8) rotate(-10deg);
+    }
+    20% {
+        transform: translateX(-50%) scale(1.2) rotate(5deg);
+    }
+    40% {
+        transform: translateX(-50%) scale(1.0) rotate(-5deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.5) translateY(-100px) rotate(0deg);
+    }
+}
+
+.game-controls {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 15px 10px 10px;
+}
+
+.controls-section {
+    background: rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.controls-section h3 {
+    color: #fff;
+    margin-bottom: 3px;
+    font-size: 0.75em;
+}
+
+.controls-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.65em;
+}
+
+.cooldowns-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-top: 3px;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.65em;
+}
+
+.cooldowns-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cooldown {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cooldown.ready {
+    background: #4ecdc4;
+    color: #fff;
+}
+
+.cooldown.waiting {
+    background: #ff6b6b;
+    color: #fff;
+    animation: cooldownPulse 1s ease infinite;
+}
+
+@keyframes cooldownPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.pause-btn {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+/* 游戏结束界面 */
+#winner-text {
+    font-size: 3em;
+    color: #ffd93d;
+    text-shadow: 3px 3px 0 #ff6b6b;
+    margin-bottom: 30px;
+}
+
+.winner-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #ffd93d;
+    margin-bottom: 30px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    animation: winnerSpin 1s ease-out;
+}
+
+@keyframes winnerSpin {
+    0% { transform: scale(0) rotate(-360deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.winner-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 暂停界面 */
+#pause-screen {
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+#pause-screen h2 {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 40px;
+}
+
+/* 动画效果 */
+.hit-effect {
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.jump-animation {
+    animation: jump 0.5s ease;
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-100px); }
+}
+
+.attack-animation {
+    animation: attack 0.3s ease;
+}
+
+@keyframes attack {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(1.2); }
+}
+
+/* 滑铲动画 */
+.slide-animation {
+    animation: slide 0.4s ease;
+}
+
+@keyframes slide {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.5) scaleX(1.5); }
+}
+
+/* 下蹲状态 */
+.crouching {
+    transform: scaleY(0.8) !important;
+}
+
+/* 防御状态 */
+.blocking {
+    opacity: 0.7;
+    filter: brightness(1.3);
+}
+
+/* 技能特效 */
+.skill-effect {
+    position: absolute;
+    pointer-events: none;
+    font-size: 3em;
+    animation: skillPop 0.6s ease forwards;
+}
+
+@keyframes skillPop {
+    0% { opacity: 1; transform: scale(0.5); }
+    100% { opacity: 0; transform: scale(2) translateY(-50px); }
+}
+
+/* 波动拳特效 */
+.hadouken-effect {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #ff6b6b, #ffd93d, transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #ff6b6b, 0 0 40px #ffd93d;
+}
+
+/* 升龙拳特效 */
+.dragon-punch-effect {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.8), rgba(255, 215, 0, 0.4), transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #ff6b6b;
+}
+
+/* 投射物通用样式 */
+.projectile {
+    position: absolute;
+    pointer-events: none;
+    font-size: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    z-index: 10;
+}
+
+/* 冲击波投射物 */
+.shockwave-projectile {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+    animation: shockwaveGlow 0.3s ease-in-out;
+}
+
+@keyframes shockwaveGlow {
+    0% { opacity: 1; transform: scale(0.5); }
+    50% { opacity: 0.9; transform: scale(0.6); }
+    100% { opacity: 0.8; transform: scale(0.5); }
+}
+
+/* 自定义技能图片样式 */
+.custom-skill-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* 投射物轨迹 */
+.projectile-trail {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9;
+}
+
+.trail-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: opacity 0.1s ease;
+}
+
+/* 技能范围指示器 */
+.skill-range-indicator {
+    position: absolute;
+    pointer-events: none;
+    border: 2px dashed rgba(255, 215, 0, 0.5);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+    z-index: 8;
+    animation: rangePulse 0.5s ease infinite;
+}
+
+.projectile.energy-ball {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #00f2fe, #4facfe);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #00f2fe, 0 0 40px #00f2fe;
+    animation: energyPulse 0.3s ease infinite;
+}
+
+@keyframes energyPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.projectile.fire-ball {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #ff6b6b, #ffd93d);
+    border-radius: 50%;
+    box-shadow: 0 0 25px #ff6b6b, 0 0 50px #ffd93d;
+    animation: firePulse 0.2s ease infinite;
+}
+
+@keyframes firePulse {
+    0%, 100% { box-shadow: 0 0 25px #ff6b6b, 0 0 50px #ffd93d; }
+    50% { box-shadow: 0 0 35px #ff6b6b, 0 0 70px #ffd93d; }
+}
+
+.projectile.ice-shard {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    box-shadow: 0 0 15px #a8edea;
+    animation: iceSpin 0.5s linear infinite;
+}
+
+@keyframes iceSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.projectile.wind-blade {
+    width: 80px;
+    height: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    animation: windFlow 0.3s ease infinite;
+}
+
+@keyframes windFlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.projectile.lightning {
+    width: 100px;
+    height: 100px;
+    font-size: 3em;
+    filter: drop-shadow(0 0 15px #ffd93d);
+    animation: lightningFlash 0.1s ease infinite;
+}
+
+@keyframes lightningFlash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.projectile.rock {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+    box-shadow: 0 0 15px #667eea;
+    animation: rockRoll 0.4s linear infinite;
+}
+
+@keyframes rockRoll {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 连击显示 */
+.combo-display {
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px;
+    pointer-events: none;
+}
+
+.combo-player1,
+.combo-player2 {
+    color: #ffd93d;
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 3px 3px 0 #000;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.combo-player1.active,
+.combo-player2.active {
+    opacity: 1;
+    animation: comboPopup 0.5s ease;
+}
+
+@keyframes comboPopup {
+    0% { transform: scale(0.5); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* 击中闪白效果 */
+.hit-flash {
+    animation: flash 0.1s ease;
+}
+
+@keyframes flash {
+    0%, 100% { filter: none; }
+    50% { filter: brightness(3); }
+}
+
+/* 格挡粒子 */
+.block-particle {
+    position: absolute;
+    font-size: 1.5em;
+    animation: blockPop 0.3s ease forwards;
+}
+
+@keyframes blockPop {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-30px); }
+}
+
+/* 超杀特效 */
+.super-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,215,0,0.8), transparent);
+    animation: superFlash 0.5s ease forwards;
+}
+
+@keyframes superFlash {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* 金身状态 - 人物放大2倍 */
+.golden-shield {
+    animation: goldenShieldScale 8s ease forwards;
+}
+
+@keyframes goldenShieldScale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    2.5%, 97.5% {
+        transform: scale(2);
+        filter: drop-shadow(0 0 30px gold) drop-shadow(0 0 60px orange);
+    }
+}
+
+/* 金身特效 */
+.golden-shield-effect {
+    position: absolute;
+    pointer-events: none;
+    font-size: 4em;
+    animation: goldenShieldPop 8s ease forwards;
+    z-index: 15;
+}
+
+@keyframes goldenShieldPop {
+    0% {
+        opacity: 1;
+        transform: scale(0.5) translateY(0);
+        filter: drop-shadow(0 0 10px gold);
+    }
+    2.5% {
+        opacity: 1;
+        transform: scale(1.5) translateY(-20px);
+        filter: drop-shadow(0 0 30px gold) drop-shadow(0 0 60px orange);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.3) translateY(-40px);
+        filter: drop-shadow(0 0 20px gold);
+    }
+    97.5% {
+        opacity: 0.8;
+        transform: scale(1) translateY(-20px);
+        filter: drop-shadow(0 0 10px gold);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8) translateY(0);
+    }
+}
+
+/* 技能冷却指示器 */
+.cooldown-indicator {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+
+/* 移动拖尾效果 */
+.motion-trail {
+    opacity: 0.4;
+    filter: blur(2px);
+    transition: opacity 0.1s ease;
+}
+
+.motion-trail .trail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.cooldown-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4ecdc4;
+}
+
+.cooldown-dot.cooldown {
+    background: #ff6b6b;
+    animation: cooldownPulse 0.5s ease infinite;
+}
+
+@keyframes cooldownPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
